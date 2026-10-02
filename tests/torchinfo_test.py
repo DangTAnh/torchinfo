@@ -475,7 +475,7 @@ def test_sparse_input() -> None:
             self.weight = nn.Parameter(torch.randn(in_features, out_features))
 
         def forward(self, x: torch.Tensor, adj: torch.Tensor) -> torch.Tensor:
-            return torch.spmm(adj, x @ self.weight)
+            return torch.spmm(adj, x @ self.weight)  # type: ignore[no-any-return]
 
     class GCN(nn.Module):
         def __init__(self) -> None:

@@ -513,7 +513,7 @@ def get_tensor_memory(data: torch.Tensor) -> int:
         storage = (
             data.untyped_storage()
             if hasattr(data, "untyped_storage")
-            else data.storage()
+            else data.storage()  # type: ignore[no-untyped-call]
         )
         return sys.getsizeof(storage)
     except NotImplementedError:
@@ -533,7 +533,7 @@ def get_tensor_memory(data: torch.Tensor) -> int:
                 continue
             try:
                 member = getter()
-            except NotImplementedError, RuntimeError:
+            except (NotImplementedError, RuntimeError):
                 continue
             members.append(member)
         return sum(get_tensor_memory(member) for member in members)
